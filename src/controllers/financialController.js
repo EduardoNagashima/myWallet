@@ -1,4 +1,4 @@
-import connection from "./database.js";
+import * as queryConnection from "../repositories/queryConnection.js";
 
 export async function postNewValue(req, res) {
     try {
@@ -19,10 +19,7 @@ export async function postNewValue(req, res) {
             return res.sendStatus(422);
         }
 
-        await connection.query(
-            `INSERT INTO "financialEvents" ("userId", "value", "type") VALUES ($1, $2, $3)`,
-            [user.id, value, type]
-        );
+       queryConnection.newValue(user.id, value, type);
 
         res.sendStatus(201);
     } catch (err) {
